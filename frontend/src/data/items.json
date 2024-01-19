@@ -2,21 +2,25 @@
     {
       "uuid": 1411,
       "name": "Jockey Wheels - Orange",
-      "price": "15.39"
+      "price": "15.39",
+      "image": "jockeywheels.jpeg"
     },
     {
       "uuid": 23881,
       "name": "Chain Ring 146mm",
-      "price": "65.95"
+      "price": "65.95",
+      "image": "chainring.jpg"
     },
     {
       "uuid": 13008,
       "name": "Carbon Brake Pads",
-      "price": "92.00"
+      "price": "92.00",
+      "image": "carbonbrakepads.jpeg"
     },
     {
       "uuid": 9101,
       "name": "Front Derailleur - 34.9mm",
-      "price": "31.22"
+      "price": "31.22",
+      "image": "frontderailleur.jpg"
     }
   ]
