@@ -25,8 +25,8 @@ export default function CartItemCard({
   }, [price, qty, setTotal]);
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <div className="flex items-center gap-2">
+    <div className='w-full p-5' >
+      <div className="flex items-center gap-2 bg shadow-xl p-3  ">
         <div className="object-cover w-60 ">
           <img src={`../src/assets/${image}`} alt={name} />
         </div>

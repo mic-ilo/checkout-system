@@ -15,34 +15,68 @@ export default function Cart() {
     cart.some((cartItem) => cartItem.id === item.uuid)
   );
 
-  return (
-    <div className="max-w-7xl mx-auto p-3 md:p-10">
-      <h1 className="text-3xl font-bold underline text-center mt-10">
-        ADDED TO CART
-      </h1>
-      {cart.length ? (
-        <div>
-          {itemsInCart.map((item) => {
-            const cartItem = cart.find((cartItem) => cartItem.id === item.uuid);
+  const discount = (amount: number) => {
+    if (amount > 100) {
+      return "20% discount voucher applied";
+    } else if (amount > 50) {
+      return "15% discount voucher applied";
+    } else if (amount > 20) {
+      return "10% discount applied";
+    } else {
+      return "no discount voucher applied";
+    }
+  };
 
-            return (
-              <div key={item.uuid}>
-                <CartItemCard
-                  name={item.name}
-                  price={Number(item.price)}
-                  qty={cartItem ? cartItem.qty : 0}
-                  image={item.image}
-                  setTotal={setTotal}
-                />
-              </div>
-            );
-          })}
-          <p>Total Amount: {totalAmount}</p>
+  const grandTotal = (amount: number) => {
+    if (amount > 100) {
+      return (amount * 0.8).toFixed(2);
+    } else if (amount > 50) {
+      return (amount * 0.85).toFixed(2);
+    } else if (amount > 20) {
+      return (amount * 0.1).toFixed(2);
+    } else {
+      return amount;
+    }
+  };
+
+  return (
+    <div className="max-w-7xl mx-auto p-3">
+      <h1 className="text-3xl text-center mt-5">My Cart</h1>
+      {cart.length ? (
+        <div className="md:flex">
+          <div className="md:w-3/4 w-full">
+            {itemsInCart.map((item) => {
+              const cartItem = cart.find(
+                (cartItem) => cartItem.id === item.uuid
+              );
+
+              return (
+                <div key={item.uuid}>
+                  <CartItemCard
+                    name={item.name}
+                    price={Number(item.price)}
+                    qty={cartItem ? cartItem.qty : 0}
+                    image={item.image}
+                    setTotal={setTotal}
+                  />
+                </div>
+              );
+            })}
+          </div>
+          <div className="md:w-1/4 bg-amber-500">
+            <h2 className="text-xl">Order summary</h2>
+            <p className="text-lg">
+              <span>Total Amount: </span>
+              {totalAmount}
+            </p>
+            <p>Discount: {discount(Number(totalAmount))} </p>
+            <p>Grand total: {grandTotal(Number(totalAmount))}</p>
+          </div>
         </div>
       ) : (
         <p>
           No items in the cart.{" "}
-          <Link to="/" className="underline text-yellow-500 font-bold">
+          <Link to="/" className="underline text-amber-500 font-bold">
             Browse items
           </Link>
         </p>
