@@ -1,47 +1,79 @@
-import { CartState } from "../pages/Home";
+import { CartState } from "../App";
+
 interface Props {
   name: string;
   price: number;
   image: string;
   id: number;
-  cart: CartState;
-  setCart: React.Dispatch<React.SetStateAction<CartState>>;
+  cart: CartState[];
+  setCart: React.Dispatch<React.SetStateAction<CartState[]>>;
 }
 
 function ItemCard({ name, price, image, id, cart, setCart }: Props) {
+  const itemInCart = cart.find((item) => item.id === id);
   const addItem = () => {
-    if (id in cart) {
-      setCart((prev) => ({
-        ...prev,
-        [id]: (prev[id] ?? 0) + 1,
-      }));
-    } else {
-      setCart((prev) => ({ ...prev, [id]: 1 }));
-    }
+    setCart((prev) => {
+      const existingItemIndex = prev.findIndex((item) => item.id === id);
+
+      if (existingItemIndex !== -1) {
+        const updatedCart = [...prev];
+        updatedCart[existingItemIndex].qty += 1;
+        return updatedCart;
+      } else {
+        return [...prev, { id, qty: 1 }];
+      }
+    });
   };
 
   const removeItem = () => {
-    if (id in cart) {
-      setCart((prev) => {
-        const updatedCart = { ...prev };
-        const newQuantity = (prev[id] ?? 1) - 1;
+    setCart((prev) => {
+      const existingItemIndex = prev.findIndex((item) => item.id === id);
 
-        if (newQuantity > 0) {
-          updatedCart[id] = newQuantity;
-        } else {
-          delete updatedCart[id];
-        }
+      if (existingItemIndex !== -1) {
+        const existingItem = prev[existingItemIndex];
+
+        // Decrease the quantity, and if it becomes 0, remove the item
+        const updatedCart =
+          existingItem.qty > 1
+            ? [
+                ...prev.slice(0, existingItemIndex),
+                { ...existingItem, qty: existingItem.qty - 1 },
+                ...prev.slice(existingItemIndex + 1),
+              ]
+            : [
+                ...prev.slice(0, existingItemIndex),
+                ...prev.slice(existingItemIndex + 1),
+              ];
+
         return updatedCart;
-      });
-    }
+      }
+
+      return prev;
+    });
   };
 
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const number = Number(ev.target.value);
-    setCart((prev) => ({
-      ...prev,
-      [id]: number,
-    }));
+    setCart((prev) => {
+      const existingItemIndex = prev.findIndex((item) => item.id === id);
+
+      if (existingItemIndex !== -1) {
+        const updatedCart = [...prev];
+        updatedCart[existingItemIndex].qty = number;
+
+        // Remove the item if the quantity becomes less than 1
+        if (number < 1) {
+          return [
+            ...prev.slice(0, existingItemIndex),
+            ...prev.slice(existingItemIndex + 1),
+          ];
+        }
+
+        return updatedCart;
+      }
+
+      return prev;
+    });
   };
 
   return (
@@ -60,7 +92,7 @@ function ItemCard({ name, price, image, id, cart, setCart }: Props) {
         </div>
       </div>
       <div className="mt-5">
-        {cart[id] ? (
+        {itemInCart ? (
           <div className="flex flex-row justify-center">
             <button
               type="button"
@@ -74,7 +106,7 @@ function ItemCard({ name, price, image, id, cart, setCart }: Props) {
               placeholder="Qty"
               className="border-2 w-12 text-center"
               min={0}
-              value={cart[id]}
+              value={itemInCart?.qty || 0}
               onChange={handleChange}
             />
             <button

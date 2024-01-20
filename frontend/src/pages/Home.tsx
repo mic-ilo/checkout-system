@@ -1,14 +1,10 @@
 import Items from "../data/items.json";
 import ItemCard from "../components/ItemCard";
-import { useState } from "react";
+import { useContext } from "react";
+import { CartContext } from "../App";
 
-export interface CartState {
-  [key: number]: number;
-}
 export default function Home() {
-  
-  const [cart, setCart] = useState<CartState>({});
-  console.log(cart)
+  const [cart, setCart] = useContext(CartContext);
   return (
     <div className="max-w-7xl mx-auto p-5">
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 flex-wrap justify-items-center ">
