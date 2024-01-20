@@ -1,21 +1,47 @@
-import { useState } from "react";
-
+import { CartState } from "../pages/Home";
 interface Props {
   name: string;
   price: number;
   image: string;
+  id: number;
+  cart: CartState;
+  setCart: React.Dispatch<React.SetStateAction<CartState>>;
 }
 
-function ItemCard({ name, price, image }: Props) {
-  const [count, setCount] = useState<number>(0);
+function ItemCard({ name, price, image, id, cart, setCart }: Props) {
+  const addItem = () => {
+    if (id in cart) {
+      setCart((prev) => ({
+        ...prev,
+        [id]: (prev[id] ?? 0) + 1,
+      }));
+    } else {
+      setCart((prev) => ({ ...prev, [id]: 1 }));
+    }
+  };
 
-  const addItem = () => setCount(count + 1);
+  const removeItem = () => {
+    if (id in cart) {
+      setCart((prev) => {
+        const updatedCart = { ...prev };
+        const newQuantity = (prev[id] ?? 1) - 1;
 
-  const removeItem = () => setCount(count - 1);
+        if (newQuantity > 0) {
+          updatedCart[id] = newQuantity;
+        } else {
+          delete updatedCart[id];
+        }
+        return updatedCart;
+      });
+    }
+  };
 
   const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const number = Number(ev.target.value);
-    setCount(number);
+    setCart((prev) => ({
+      ...prev,
+      [id]: number,
+    }));
   };
 
   return (
@@ -34,29 +60,29 @@ function ItemCard({ name, price, image }: Props) {
         </div>
       </div>
       <div className="mt-5">
-        {count > 0 ? (
+        {cart[id] ? (
           <div className="flex flex-row justify-center">
-            <button
-              type="button"
-              className="bg-amber-500 p-2 rounded-sm font-bold w-8"
-              onClick={addItem}
-            >
-              +
-            </button>
-            <input
-              type="number"
-              placeholder="Qty"
-              className="border-2 w-12 text-center"
-              min={0}
-              onChange={handleChange}
-              value={count}
-            />
             <button
               type="button"
               className="bg-amber-500 p-2 rounded-sm font-bold w-8"
               onClick={removeItem}
             >
               -
+            </button>
+            <input
+              type="number"
+              placeholder="Qty"
+              className="border-2 w-12 text-center"
+              min={0}
+              value={cart[id]}
+              onChange={handleChange}
+            />
+            <button
+              type="button"
+              className="bg-amber-500 p-2 rounded-sm font-bold w-8"
+              onClick={addItem}
+            >
+              +
             </button>
           </div>
         ) : (
