@@ -4,13 +4,22 @@ import dataDB from "../data/items.json";
 import CartItemCard from "../components/CartItemCard";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useEffect } from "react";
 
 export default function Cart() {
-  const [cart] = useContext(CartContext);
+  const [cart, setCart] = useContext(CartContext);
   const [total, setTotal] = useState<number[]>([]);
   const totalAmount = total.reduce((acc, curr) => acc + curr, 0).toFixed(2);
   console.log(total);
 
+  useEffect(() => {
+    const storedCart = localStorage.getItem("cartItems");
+    if (storedCart !== null) {
+      const items = JSON.parse(storedCart);
+      setCart(items);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const itemsInCart = dataDB.filter((item) =>
     cart.some((cartItem) => cartItem.id === item.uuid)
   );
