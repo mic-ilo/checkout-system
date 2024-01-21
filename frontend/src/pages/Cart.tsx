@@ -10,7 +10,6 @@ export default function Cart() {
   const [cart, setCart] = useContext(CartContext);
   const [total, setTotal] = useState<number[]>([]);
   const totalAmount = total.reduce((acc, curr) => acc + curr, 0).toFixed(2);
-  console.log(total);
 
   useEffect(() => {
     const storedCart = localStorage.getItem("cartItems");
@@ -26,13 +25,13 @@ export default function Cart() {
 
   const discount = (amount: number) => {
     if (amount > 100) {
-      return "20% discount voucher applied";
+      return "20% voucher applied";
     } else if (amount > 50) {
-      return "15% discount voucher applied";
+      return "15% voucher applied";
     } else if (amount > 20) {
       return "10% discount applied";
     } else {
-      return "no discount voucher applied";
+      return "no voucher applied";
     }
   };
 
@@ -50,10 +49,12 @@ export default function Cart() {
 
   return (
     <div className="max-w-7xl mx-auto p-3">
-      <h1 className="text-3xl text-center mt-5">My Cart</h1>
+      <h1 className="text-2xl md:4-xl font-light md:text-4xl  mt-5 mb-5">
+        Shopping Cart
+      </h1>
       {cart.length ? (
         <div className="md:flex">
-          <div className="md:w-3/4 w-full">
+          <div className="md:w-2/3 w-full">
             {itemsInCart.map((item) => {
               const cartItem = cart.find(
                 (cartItem) => cartItem.id === item.uuid
@@ -72,14 +73,34 @@ export default function Cart() {
               );
             })}
           </div>
-          <div className="md:w-1/4 bg-amber-500">
-            <h2 className="text-xl">Order summary</h2>
-            <p className="text-lg">
-              <span>Total Amount: </span>
-              {totalAmount}
+          <div className="md:w-1/3 bg-slate-200 h-fit p-5 bg-opacity-45 rounded-lg text-gray-700">
+            <h2 className=" text-2xl text-center font-light pb-5">
+              Order summary
+            </h2>
+            <p className="">
+              <span className="font-bold">Sub total: </span>$ {totalAmount}
             </p>
-            <p>Discount: {discount(Number(totalAmount))} </p>
-            <p>Grand total: {grandTotal(Number(totalAmount))}</p>
+            <p>
+              <span className="font-bold">Discount: </span>
+              {discount(Number(totalAmount))}{" "}
+            </p>
+            <p>
+              <span className="font-bold">Total: </span> ${" "}
+              {grandTotal(Number(totalAmount))}
+            </p>
+            <button
+              type="button"
+              className=" mt-5 bg-amber-500 font-bold text-black p-2 rounded-lg w-full"
+            >
+              PROCEED TO CHECKOUT
+            </button>
+            <Link
+              to="/"
+              type="button"
+              className=" mt-5 bg-slate-300 font-bold text-black text-center p-2 rounded-lg w-full"
+            >
+              CONTINUE SHOPPING {">>"}
+            </Link>
           </div>
         </div>
       ) : (

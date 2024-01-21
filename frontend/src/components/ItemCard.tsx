@@ -105,7 +105,7 @@ function ItemCard({ name, price, image, id, cart, setCart }: Props) {
               type="number"
               placeholder="Qty"
               className="border-2 w-12 text-center"
-              min={0}
+              min={1}
               value={itemInCart?.qty || 0}
               onChange={handleChange}
             />
