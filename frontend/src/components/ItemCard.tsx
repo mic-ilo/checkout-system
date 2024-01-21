@@ -1,5 +1,5 @@
-import { CartState } from "../App";
-
+import { CartState } from "../context/CartContext";
+import { useContext } from "react";
 interface Props {
   name: string;
   price: number;
@@ -106,7 +106,7 @@ function ItemCard({ name, price, image, id, cart, setCart }: Props) {
               placeholder="Qty"
               className="border-2 w-12 text-center"
               min={1}
-              value={itemInCart?.qty || 0}
+              value={itemInCart?.qty || 1}
               onChange={handleChange}
             />
             <button

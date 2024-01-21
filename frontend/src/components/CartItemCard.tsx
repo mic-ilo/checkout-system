@@ -25,7 +25,7 @@ export default function CartItemCard({
   }, [price, qty, setTotal]);
 
   return (
-    <div className='w-full p-5' >
+    <div className="w-full p-5">
       <div className="flex items-center gap-2 bg shadow-xl p-3  ">
         <div className="object-cover w-60 ">
           <img src={`../src/assets/${image}`} alt={name} />
@@ -36,7 +36,26 @@ export default function CartItemCard({
             <span className="font-bold">Price:</span> $ {price}
           </p>
           <p>
-            <span className="font-bold">Quantity:</span> {qty}
+            <span className="font-bold">Quantity:</span>{" "}
+            <button
+              className="bg-amber-500 px-2 rounded-md font-bold mr-2"
+              type="button"
+            >
+              -
+            </button>
+            <input
+              type="number"
+              placeholder="Qty"
+              className="border-2 w-12 text-center"
+              min={1}
+              value={qty}
+            />
+            <button
+              className="bg-amber-500 px-2 rounded-md font-bold ml-2"
+              type="button"
+            >
+              +
+            </button>
           </p>
           <p>
             <span className="font-bold">Total:</span> ${" "}

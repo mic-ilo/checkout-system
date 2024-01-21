@@ -1,7 +1,7 @@
 import Items from "../data/items.json";
 import ItemCard from "../components/ItemCard";
 import { useContext } from "react";
-import { CartContext } from "../App";
+import { CartContext } from "../context/CartContext";
 import { useEffect } from "react";
 
 export default function Home() {
