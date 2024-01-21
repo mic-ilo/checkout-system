@@ -23,12 +23,26 @@ export default function CartItemCard({
     return Number(total.toFixed(2));
   };
 
-  const { addItem, removeItem, handleChange } = useContext(CartContext)!;
+  const { addItem, removeItem, handleChange, cartState } =
+    useContext(CartContext)!;
+  const [cart, setCart] = cartState;
+
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cart));
+  }, [cart]);
 
   useEffect(() => {
     setTotal((prevTotal) => [...prevTotal, totalPerItem(price, qty)]);
   }, [price, qty, setTotal]);
 
+  useEffect(() => {
+    const storedCart = localStorage.getItem("cartItems");
+    if (storedCart !== null) {
+      const items = JSON.parse(storedCart);
+      setCart(items);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="w-full p-5">
       <div className="flex items-center gap-2 bg shadow-xl p-3  ">
