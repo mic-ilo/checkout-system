@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import { CartContext } from "../context/CartContext";
 
 interface Props {
   name: string;
@@ -6,6 +7,7 @@ interface Props {
   qty: number;
   image: string;
   setTotal: React.Dispatch<React.SetStateAction<number[]>>;
+  id: number;
 }
 
 export default function CartItemCard({
@@ -14,11 +16,14 @@ export default function CartItemCard({
   qty,
   image,
   setTotal,
+  id,
 }: Props) {
   const totalPerItem: (price: number, qty: number) => number = (price, qty) => {
     const total = price * qty;
     return Number(total.toFixed(2));
   };
+
+  const { addItem, removeItem, handleChange } = useContext(CartContext)!;
 
   useEffect(() => {
     setTotal((prevTotal) => [...prevTotal, totalPerItem(price, qty)]);
@@ -40,6 +45,7 @@ export default function CartItemCard({
             <button
               className="bg-amber-500 px-2 rounded-md font-bold mr-2"
               type="button"
+              onClick={() => removeItem(id)}
             >
               -
             </button>
@@ -49,10 +55,12 @@ export default function CartItemCard({
               className="border-2 w-12 text-center"
               min={1}
               value={qty}
+              onChange={(ev) => handleChange(ev, id)}
             />
             <button
               className="bg-amber-500 px-2 rounded-md font-bold ml-2"
               type="button"
+              onClick={() => addItem(id)}
             >
               +
             </button>

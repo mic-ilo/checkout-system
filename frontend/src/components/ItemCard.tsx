@@ -1,4 +1,4 @@
-import { CartState } from "../context/CartContext";
+import { CartContext, CartState } from "../context/CartContext";
 import { useContext } from "react";
 interface Props {
   name: string;
@@ -9,72 +9,10 @@ interface Props {
   setCart: React.Dispatch<React.SetStateAction<CartState[]>>;
 }
 
-function ItemCard({ name, price, image, id, cart, setCart }: Props) {
+function ItemCard({ name, price, image, id, cart }: Props) {
+  const { addItem, removeItem, handleChange } = useContext(CartContext)!;
+
   const itemInCart = cart.find((item) => item.id === id);
-  const addItem = () => {
-    setCart((prev) => {
-      const existingItemIndex = prev.findIndex((item) => item.id === id);
-
-      if (existingItemIndex !== -1) {
-        const updatedCart = [...prev];
-        updatedCart[existingItemIndex].qty += 1;
-        return updatedCart;
-      } else {
-        return [...prev, { id, qty: 1 }];
-      }
-    });
-  };
-
-  const removeItem = () => {
-    setCart((prev) => {
-      const existingItemIndex = prev.findIndex((item) => item.id === id);
-
-      if (existingItemIndex !== -1) {
-        const existingItem = prev[existingItemIndex];
-
-        // Decrease the quantity, and if it becomes 0, remove the item
-        const updatedCart =
-          existingItem.qty > 1
-            ? [
-                ...prev.slice(0, existingItemIndex),
-                { ...existingItem, qty: existingItem.qty - 1 },
-                ...prev.slice(existingItemIndex + 1),
-              ]
-            : [
-                ...prev.slice(0, existingItemIndex),
-                ...prev.slice(existingItemIndex + 1),
-              ];
-
-        return updatedCart;
-      }
-
-      return prev;
-    });
-  };
-
-  const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    const number = Number(ev.target.value);
-    setCart((prev) => {
-      const existingItemIndex = prev.findIndex((item) => item.id === id);
-
-      if (existingItemIndex !== -1) {
-        const updatedCart = [...prev];
-        updatedCart[existingItemIndex].qty = number;
-
-        // Remove the item if the quantity becomes less than 1
-        if (number < 1) {
-          return [
-            ...prev.slice(0, existingItemIndex),
-            ...prev.slice(existingItemIndex + 1),
-          ];
-        }
-
-        return updatedCart;
-      }
-
-      return prev;
-    });
-  };
 
   return (
     <div>
@@ -97,7 +35,7 @@ function ItemCard({ name, price, image, id, cart, setCart }: Props) {
             <button
               type="button"
               className="bg-amber-500 p-2 rounded-sm font-bold w-8"
-              onClick={removeItem}
+              onClick={() => removeItem(id)}
             >
               -
             </button>
@@ -107,12 +45,12 @@ function ItemCard({ name, price, image, id, cart, setCart }: Props) {
               className="border-2 w-12 text-center"
               min={1}
               value={itemInCart?.qty || 1}
-              onChange={handleChange}
+              onChange={(ev) => handleChange(ev, id)}
             />
             <button
               type="button"
               className="bg-amber-500 p-2 rounded-sm font-bold w-8"
-              onClick={addItem}
+              onClick={() => addItem(id)}
             >
               +
             </button>
@@ -121,7 +59,7 @@ function ItemCard({ name, price, image, id, cart, setCart }: Props) {
           <button
             type="button"
             className="text-center bg-amber-500 w-full rounded-lg h-10"
-            onClick={addItem}
+            onClick={() => addItem(id)}
           >
             Add to cart
           </button>

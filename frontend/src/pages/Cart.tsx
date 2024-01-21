@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 export default function Cart() {
-  const [cart, setCart] = useContext(CartContext);
+  const [cart, setCart] = useContext(CartContext)!.cartState;
   const [total, setTotal] = useState<number[]>([]);
   const totalAmount = total.reduce((acc, curr) => acc + curr, 0).toFixed(2);
 
@@ -68,6 +68,7 @@ export default function Cart() {
                     qty={cartItem ? cartItem.qty : 0}
                     image={item.image}
                     setTotal={setTotal}
+                    id={item.uuid}
                   />
                 </div>
               );

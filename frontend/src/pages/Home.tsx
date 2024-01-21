@@ -1,11 +1,10 @@
+import { useContext, useEffect } from "react";
+import { CartContext } from "../context/CartContext";
 import Items from "../data/items.json";
 import ItemCard from "../components/ItemCard";
-import { useContext } from "react";
-import { CartContext } from "../context/CartContext";
-import { useEffect } from "react";
 
 export default function Home() {
-  const [cart, setCart] = useContext(CartContext);
+  const [cart, setCart] = useContext(CartContext)!.cartState;
 
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cart));
