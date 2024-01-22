@@ -19,6 +19,7 @@ export default function Cart() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const itemsInCart = dataDB.filter((item) =>
     cart.some((cartItem) => cartItem.id === item.uuid)
   );
@@ -41,7 +42,7 @@ export default function Cart() {
     } else if (amount > 50) {
       return (amount * 0.85).toFixed(2);
     } else if (amount > 20) {
-      return (amount * 0.1).toFixed(2);
+      return (amount * 0.9).toFixed(2);
     } else {
       return amount;
     }

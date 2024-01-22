@@ -35,6 +35,7 @@ export default function CartProvider({ children }: CartProviderProps) {
       if (existingItemIndex !== -1) {
         const updatedCart = [...prev];
         updatedCart[existingItemIndex].qty += 1;
+        console.log(cart);
         return updatedCart;
       } else {
         return [...prev, { id, qty: 1 }];
@@ -57,11 +58,8 @@ export default function CartProvider({ children }: CartProviderProps) {
                 { ...existingItem, qty: existingItem.qty - 1 },
                 ...prev.slice(existingItemIndex + 1),
               ]
-            : [
-                ...prev.slice(0, existingItemIndex),
-                ...prev.slice(existingItemIndex + 1),
-              ];
-
+            : prev;
+        console.log(cart);
         return updatedCart;
       }
 
@@ -79,15 +77,7 @@ export default function CartProvider({ children }: CartProviderProps) {
 
       if (existingItemIndex !== -1) {
         const updatedCart = [...prev];
-        updatedCart[existingItemIndex].qty = number;
-
-        // Remove the item if the quantity becomes less than 1
-        if (number < 1) {
-          return [
-            ...prev.slice(0, existingItemIndex),
-            ...prev.slice(existingItemIndex + 1),
-          ];
-        }
+        updatedCart[existingItemIndex].qty = number || 1;
 
         return updatedCart;
       }

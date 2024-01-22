@@ -18,14 +18,16 @@ export default function CartItemCard({
   setTotal,
   id,
 }: Props) {
+  const { addItem, removeItem, handleChange, cartState } =
+    useContext(CartContext)!;
+  const [cart, setCart] = cartState;
+  const itemInCart = cart.find((item) => item.id === id);
+  const ItemQuantity = itemInCart?.qty;
+
   const totalPerItem: (price: number, qty: number) => number = (price, qty) => {
     const total = price * qty;
     return Number(total.toFixed(2));
   };
-
-  const { addItem, removeItem, handleChange, cartState } =
-    useContext(CartContext)!;
-  const [cart, setCart] = cartState;
 
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cart));
@@ -43,6 +45,7 @@ export default function CartItemCard({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <div className="w-full p-5">
       <div className="flex items-center gap-2 bg shadow-xl p-3  ">
@@ -68,7 +71,7 @@ export default function CartItemCard({
               placeholder="Qty"
               className="border-2 w-12 text-center"
               min={1}
-              value={qty}
+              value={itemInCart?.qty || 1}
               onChange={(ev) => handleChange(ev, id)}
             />
             <button
@@ -81,7 +84,7 @@ export default function CartItemCard({
           </p>
           <p>
             <span className="font-bold">Total:</span> ${" "}
-            {totalPerItem(price, qty)}
+            {totalPerItem(price, ItemQuantity)}
           </p>
         </div>
       </div>

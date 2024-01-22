@@ -7,7 +7,9 @@ export default function Home() {
   const [cart, setCart] = useContext(CartContext)!.cartState;
 
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cart));
+    if (cart.length > 0) {
+      localStorage.setItem("cartItems", JSON.stringify(cart));
+    }
   }, [cart]);
 
   useEffect(() => {
