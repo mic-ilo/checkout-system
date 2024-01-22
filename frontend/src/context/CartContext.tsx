@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   createContext,
   Dispatch,
@@ -17,6 +18,7 @@ interface ShoppingCartContext {
   removeItem: (id: number) => void;
   handleChange: (ev: React.ChangeEvent<HTMLInputElement>, id: number) => void;
   removeFromCart: (id: number) => void;
+  countCartItems: () => number;
 }
 
 export const CartContext = createContext<ShoppingCartContext | undefined>(
@@ -29,6 +31,15 @@ interface CartProviderProps {
 
 export default function CartProvider({ children }: CartProviderProps) {
   const [cart, setCart] = useState<CartState[]>([]);
+
+  useEffect(() => {
+    // Load cart from localStorage
+    const storedCart = localStorage.getItem("cartItems");
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, []);
+
   const addItem = (id: number) => {
     setCart((prev) => {
       const existingItemIndex = prev.findIndex((item) => item.id === id);
@@ -94,12 +105,20 @@ export default function CartProvider({ children }: CartProviderProps) {
     });
   };
 
+  const countCartItems = () => {
+    // console.log(cart);
+    let count = 0;
+    count = cart.reduce((acc, curr) => acc + curr.qty, 0);
+    return count;
+  };
+
   const contextValue: ShoppingCartContext = {
     cartState: [cart, setCart],
     addItem,
     removeItem,
     handleChange,
     removeFromCart,
+    countCartItems,
   };
 
   return (
