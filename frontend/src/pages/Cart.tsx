@@ -8,8 +8,9 @@ import { useEffect } from "react";
 
 export default function Cart() {
   const [cart, setCart] = useContext(CartContext)!.cartState;
-  const [total, setTotal] = useState<number[]>([]);
-  const totalAmount = total.reduce((acc, curr) => acc + curr, 0).toFixed(2);
+  const [total, setTotal] = useState<{ id: number; total: number }[]>([]);
+
+  const totalAmount = total.reduce((acc, curr) => acc + curr.total, 0).toFixed(2);
 
   useEffect(() => {
     const storedCart = localStorage.getItem("cartItems");

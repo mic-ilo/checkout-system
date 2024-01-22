@@ -1,19 +1,20 @@
 import { useEffect, useContext } from "react";
 import { CartContext } from "../context/CartContext";
-
+import dataDB from "../data/items.json";
 interface Props {
   name: string;
   price: number;
   qty: number;
   image: string;
-  setTotal: React.Dispatch<React.SetStateAction<number[]>>;
+  setTotal: React.Dispatch<
+    React.SetStateAction<{ id: number; total: number }[]>
+  >;
   id: number;
 }
 
 export default function CartItemCard({
   name,
   price,
-  qty,
   image,
   setTotal,
   id,
@@ -30,12 +31,17 @@ export default function CartItemCard({
   };
 
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cart));
-  }, [cart]);
+    const updatedTotal = cart.map(({ id, qty }) => {
+      const item = dataDB.find((item) => Number(item.uuid) === id);
+      const price = item ? parseFloat(item.price) : 0;
+      return {
+        id,
+        total: totalPerItem(price, qty),
+      };
+    });
 
-  useEffect(() => {
-    setTotal((prevTotal) => [...prevTotal, totalPerItem(price, qty)]);
-  }, [price, qty, setTotal]);
+    setTotal(updatedTotal);
+  }, [cart, setTotal]);
 
   useEffect(() => {
     const storedCart = localStorage.getItem("cartItems");
