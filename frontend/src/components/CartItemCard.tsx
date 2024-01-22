@@ -19,7 +19,7 @@ export default function CartItemCard({
   setTotal,
   id,
 }: Props) {
-  const { addItem, removeItem, handleChange, cartState } =
+  const { addItem, removeItem, handleChange, cartState, removeFromCart } =
     useContext(CartContext)!;
   const [cart, setCart] = cartState;
   const itemInCart = cart.find((item) => item.id === id);
@@ -91,6 +91,12 @@ export default function CartItemCard({
           <p>
             <span className="font-bold">Total:</span> ${" "}
             {totalPerItem(price, ItemQuantity)}
+          </p>
+          <p
+            className="text-blue-800 cursor-pointer hover:underline hover:opacity-80"
+            onClick={() => removeFromCart(id)}
+          >
+            Remove
           </p>
         </div>
       </div>

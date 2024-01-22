@@ -60,10 +60,10 @@ function ItemCard({ name, price, image, id, cart }: Props) {
             <div className="text-center">
               <button
                 type="button"
-                className="0 text-gray-800 p-2  text-sm underline hover:opacity-80"
+                className="0 text-blue-800 p-2  text-sm font-bold hover:underline hover:opacity-80"
                 onClick={() => removeFromCart(id)}
               >
-                Remove from cart
+                Remove
               </button>
             </div>
           </div>

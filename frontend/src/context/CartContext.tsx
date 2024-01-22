@@ -53,14 +53,13 @@ export default function CartProvider({ children }: CartProviderProps) {
 
         // Decrease the quantity, and if it becomes 0, remove the item
         const updatedCart =
-          existingItem.qty > 1
+          existingItem.qty > 0
             ? [
                 ...prev.slice(0, existingItemIndex),
                 { ...existingItem, qty: existingItem.qty - 1 },
                 ...prev.slice(existingItemIndex + 1),
               ]
             : prev;
-        console.log(cart);
         return updatedCart;
       }
 
@@ -88,7 +87,11 @@ export default function CartProvider({ children }: CartProviderProps) {
   };
 
   const removeFromCart = (id: number) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+    setCart((prevCart) => {
+      const updatedCart = prevCart.filter((item) => item.id !== id);
+      localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+      return updatedCart;
+    });
   };
 
   const contextValue: ShoppingCartContext = {
