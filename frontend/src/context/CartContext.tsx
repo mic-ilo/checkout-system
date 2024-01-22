@@ -33,7 +33,6 @@ export default function CartProvider({ children }: CartProviderProps) {
   const [cart, setCart] = useState<CartState[]>([]);
 
   useEffect(() => {
-    // Load cart from localStorage
     const storedCart = localStorage.getItem("cartItems");
     if (storedCart) {
       setCart(JSON.parse(storedCart));
@@ -47,7 +46,6 @@ export default function CartProvider({ children }: CartProviderProps) {
       if (existingItemIndex !== -1) {
         const updatedCart = [...prev];
         updatedCart[existingItemIndex].qty += 1;
-        console.log(cart);
         return updatedCart;
       } else {
         return [...prev, { id, qty: 1 }];
@@ -61,8 +59,6 @@ export default function CartProvider({ children }: CartProviderProps) {
 
       if (existingItemIndex !== -1) {
         const existingItem = prev[existingItemIndex];
-
-        // Decrease the quantity, and if it becomes 0, remove the item
         const updatedCart =
           existingItem.qty > 0
             ? [
@@ -106,7 +102,6 @@ export default function CartProvider({ children }: CartProviderProps) {
   };
 
   const countCartItems = () => {
-    // console.log(cart);
     let count = 0;
     count = cart.reduce((acc, curr) => acc + curr.qty, 0);
     return count;
