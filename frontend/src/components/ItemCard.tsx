@@ -10,7 +10,8 @@ interface Props {
 }
 
 function ItemCard({ name, price, image, id, cart }: Props) {
-  const { addItem, removeItem, handleChange } = useContext(CartContext)!;
+  const { addItem, removeItem, handleChange, removeFromCart } =
+    useContext(CartContext)!;
 
   const itemInCart = cart.find((item) => item.id === id);
 
@@ -31,29 +32,40 @@ function ItemCard({ name, price, image, id, cart }: Props) {
       </div>
       <div className="mt-5">
         {itemInCart ? (
-          <div className="flex flex-row justify-center">
-            <button
-              type="button"
-              className="bg-amber-500 p-2 rounded-sm font-bold w-8"
-              onClick={() => removeItem(id)}
-            >
-              -
-            </button>
-            <input
-              type="number"
-              placeholder="Qty"
-              className="border-2 w-12 text-center"
-              min={1}
-              value={itemInCart?.qty || 1}
-              onChange={(ev) => handleChange(ev, id)}
-            />
-            <button
-              type="button"
-              className="bg-amber-500 p-2 rounded-sm font-bold w-8"
-              onClick={() => addItem(id)}
-            >
-              +
-            </button>
+          <div>
+            <div className="flex flex-row justify-center">
+              <button
+                type="button"
+                className="bg-amber-500 p-2 rounded-sm font-bold w-8"
+                onClick={() => removeItem(id)}
+              >
+                -
+              </button>
+              <input
+                type="number"
+                placeholder="Qty"
+                className="border-2 w-12 text-center"
+                min={1}
+                value={itemInCart?.qty || 1}
+                onChange={(ev) => handleChange(ev, id)}
+              />
+              <button
+                type="button"
+                className="bg-amber-500 p-2 rounded-sm font-bold w-8"
+                onClick={() => addItem(id)}
+              >
+                +
+              </button>
+            </div>
+            <div className="text-center">
+              <button
+                type="button"
+                className="0 text-gray-800 p-2  text-sm underline hover:opacity-80"
+                onClick={() => removeFromCart(id)}
+              >
+                Remove from cart
+              </button>
+            </div>
           </div>
         ) : (
           <button

@@ -16,6 +16,7 @@ interface ShoppingCartContext {
   addItem: (id: number) => void;
   removeItem: (id: number) => void;
   handleChange: (ev: React.ChangeEvent<HTMLInputElement>, id: number) => void;
+  removeFromCart: (id: number) => void;
 }
 
 export const CartContext = createContext<ShoppingCartContext | undefined>(
@@ -86,11 +87,16 @@ export default function CartProvider({ children }: CartProviderProps) {
     });
   };
 
+  const removeFromCart = (id: number) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  };
+
   const contextValue: ShoppingCartContext = {
     cartState: [cart, setCart],
     addItem,
     removeItem,
     handleChange,
+    removeFromCart,
   };
 
   return (
