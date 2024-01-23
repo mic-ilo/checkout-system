@@ -7,11 +7,11 @@ interface Props {
 export default function OrderSummary({ totalAmount }: Props) {
   const discount = (amount: number) => {
     if (amount > 100) {
-      return "20% voucher applied";
+      return "20% off on total greater than $100";
     } else if (amount > 50) {
-      return "15% voucher applied";
+      return "15% off on total greater than $50";
     } else if (amount > 20) {
-      return "10% discount applied";
+      return "10% off on total greater than $20";
     } else {
       return "no voucher applied";
     }
@@ -36,7 +36,7 @@ export default function OrderSummary({ totalAmount }: Props) {
         <span className="font-bold">Sub total: </span>$ {totalAmount}
       </p>
       <p>
-        <span className="font-bold">Discount: </span>
+        <span className="font-bold">Discount applied: </span>
         {discount(Number(totalAmount))}{" "}
       </p>
       <p>
