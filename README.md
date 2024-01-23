@@ -33,7 +33,7 @@ Depaato is a checkout system project that allows a user to effortlessly browse a
 - Used local storage to maintain items in cart even after page refresh
 
 ## Usage
-- User visiting the page main page: `localhost:3000`:
+- User visiting the page main page: `localhost:5173`:
 	- User can browse a selection of available product items
 	- User can see the product name, picture, and price per item
 	- User can select `add to cart` button,  then one item will automatically be push to cart
@@ -43,7 +43,7 @@ Depaato is a checkout system project that allows a user to effortlessly browse a
 	- From header navigation, user can see the quantity of all items in cart reflected at the buttom right of `cart` button
 	- User can click the `cart` button on header nav, to be redirected to `localhost:3000/cart
 	
-- User visiting the cart page: `localhost:3000/cart` 
+- User visiting the cart page: `localhost:5173/cart` 
 	- User can view all items added to cart
 	- Information per product on cart: User can see the the product name, product photo, price per product, quantity selected, total amount per product
 	- User can update the quantity of items in cart by manual input, or by using `+` or `-` button
