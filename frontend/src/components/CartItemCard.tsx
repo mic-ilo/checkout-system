@@ -23,7 +23,7 @@ export default function CartItemCard({
     useContext(CartContext)!;
   const [cart, setCart] = cartState;
   const itemInCart = cart.find((item) => item.id === id);
-  const ItemQuantity = itemInCart?.qty;
+  const ItemQuantity = itemInCart?.qty ?? 0;
 
   const totalPerItem: (price: number, qty: number) => number = (price, qty) => {
     const total = price * qty;
