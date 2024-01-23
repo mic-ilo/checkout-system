@@ -60,7 +60,7 @@ export default function CartProvider({ children }: CartProviderProps) {
       if (existingItemIndex !== -1) {
         const existingItem = prev[existingItemIndex];
         const updatedCart =
-          existingItem.qty > 0
+          existingItem.qty > 1
             ? [
                 ...prev.slice(0, existingItemIndex),
                 { ...existingItem, qty: existingItem.qty - 1 },
