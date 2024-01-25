@@ -24,7 +24,7 @@ function ItemCard({ name, price, image, id, cart }: Props) {
         </div>
         <div className=" w-full h-60 object-cover">
           <img
-            src={`../src/assets/${image}`}
+            src={image}
             alt={name}
             className="w-full h-full object-cover"
           />

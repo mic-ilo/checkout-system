@@ -56,7 +56,7 @@ export default function CartItemCard({
     <div className="w-full p-5">
       <div className="flex items-center gap-2 bg shadow-xl p-3  ">
         <div className="object-cover w-60 ">
-          <img src={`../src/assets/${image}`} alt={name} />
+          <img src={image} alt="picture" />
         </div>
         <div>
           <p className="font-bold">{name}</p>
