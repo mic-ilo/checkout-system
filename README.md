@@ -12,7 +12,7 @@ Depaato is a checkout system project that allows a user to effortlessly browse a
 -  `react": "^18.2.0"`
 - `react-dom": "^18.2.0"`
 - `react-router-dom": "^6.21.3`
-- `tailwindcss": "^3.4.1`
+
 
 ## Project structure
 - `frontend/` : frontend-related code
