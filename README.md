@@ -55,6 +55,3 @@ Depaato is a checkout system project that allows a user to effortlessly browse a
 		- User can click proceed to checkout by selecting `proceed to checkout` button (code not implemented yet )
 		- User can click `continue shopping` to return to main path and continue shopping
 
-# Brand Personality
-- The color scheme features amber, a warm and radiant color associated with energy 
-- A minimalist approach creates a simple, clean, and user-friendly experience, allowing users to focus on products
